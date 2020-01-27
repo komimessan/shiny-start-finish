@@ -3,5 +3,7 @@ user_interface <- tagList(
   p("This app demonstrates the split between the Muggle and Wizard worlds"),
   actionButton("go", "Go!"),
   plotOutput("main"),
-  textOutput("button_message")
+  textOutput("button_message"),
+  selectInput("xvar","select x",c("shape","line type","color")),
+  selectInput("yvar","select y",c("shape","line type","color"))
 )
