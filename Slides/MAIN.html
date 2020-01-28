@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>MAIN.utf8.md</title>
+  <title>MAIN.utf8</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -28,7 +28,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -863,13 +863,43 @@ AttaliTech Ltd, <a href="http://AttaliTech.com" class="uri">http://AttaliTech.co
 <h2>Our unusual file organization</h2>
 <p>We’re going to do things in what will be an unfamiliar way.</p>
 <ol type="1">
-<li>App <code>.R</code> files will be very short and can have any name, e.g. <code>app-first.R</code>, <code>app-second.R</code>, <code>calculator.R</code>, <code>chess.R</code>, …</li>
+<li>App <code>.R</code> files will be very short and can have any name, e.g. <code>app-first.R</code>, <code>app-second.R</code>, <code>calculator.R</code>, <code>chess.R</code>, …</li>
 <li>The guts of the app will be in other <code>.R</code> files, with names like <code>server-part-1.R</code> or <code>ui-keyboard.R</code>, etc.</li>
 </ol>
 <p>This will break up code into manageable chunks.</p>
 <p><em>Caveat for much later</em>: When we deploy the app to a server, we’ll have to put it in its own directory and call it <code>app.R</code>.</p>
 </section></section>
-<section><section id="what-is-a-shiny-app" class="title-slide slide level1"><h1>What is a shiny app?</h1></section><section id="every-shiny-app-is-a-webpage" class="slide level2">
+<section><section id="what-is-a-shiny-app" class="title-slide slide level1"><h1>What is a shiny app?</h1><style>
+.container{
+    display: flex;
+}
+.colsmall {
+    flex: 0.5;
+}
+.col{
+    flex: 1;
+}
+.col2{
+    flex: 2;
+}
+.col3{
+    flex: 3;
+}
+.col4{
+    flex: 4;
+}
+</style>
+<style type="text/css">
+  .reveal p {
+    text-align: left;
+  }
+  .reveal ul {
+    display: block;
+  }
+  .reveal ol {
+    display: block;
+  }
+</style></section><section id="every-shiny-app-is-a-webpage" class="slide level2">
 <h2>Every Shiny App is a webpage</h2>
 <div class="container">
 <div class="col">
@@ -933,7 +963,10 @@ AttaliTech Ltd, <a href="http://AttaliTech.com" class="uri">http://AttaliTech.co
 <p>The wizard world can reach out to the Muggle world … but not <em>vice versa</em>.</p>
 </section></section>
 <section id="an-introductory-app" class="title-slide slide level1" data-background-image="./images/cityscape.png"><h1>An introductory app</h1></section>
-<section><section id="writing-our-first-app" class="title-slide slide level1"><h1>Writing our First App</h1></section><section id="the-file-app.r" class="slide level2" style="color:blue;">
+<section><section id="writing-our-first-app" class="title-slide slide level1"><h1>Writing our First App</h1><p>A simple app written in an unconventional way.</p>
+<p>It may look strange if you have already written Shiny apps.</p>
+<p>Meant to demonstrate the full scope of app writing in a compact example.</p>
+<p>File in directory “Projects/Project-0”</p></section><section id="the-file-app.r" class="slide level2" style="color:blue;">
 <h2>The file, <code>app.R</code></h2>
 <p>Everything is in this one file, but there’s no requirement for that.</p>
 <p>Alternatives:</p>
@@ -951,22 +984,22 @@ AttaliTech Ltd, <a href="http://AttaliTech.com" class="uri">http://AttaliTech.co
 <h2>Start in the Muggle world</h2>
 <div class="container">
 <div class="col">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## Muggle World</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(shiny)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(DT)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">muggle_plot &lt;-<span class="st"> </span><span class="cf">function</span>(xvar, yvar) {</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="kw">ggplot</span>(</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">     diamonds <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_n</span>(<span class="dt">size =</span> <span class="dv">200</span>), </a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">     <span class="kw">aes</span>(<span class="dt">x =</span> <span class="op">!!</span>xvar,  <span class="dt">y  =</span> <span class="op">!!</span>yvar)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_point</span>()</a>
-<a class="sourceLine" id="cb1-12" data-line-number="12">}</a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># test for Muggle functionality:</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co"># muggle_plot(as.name(&quot;cut&quot;), </span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#             as.name(&quot;price&quot;))</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co">## Muggle World</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(shiny)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(DT)</a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7">muggle_plot &lt;-<span class="st"> </span><span class="cf">function</span>(xvar, yvar) {</a>
+<a class="sourceLine" id="cb1-8" title="8">  <span class="kw">ggplot</span>(</a>
+<a class="sourceLine" id="cb1-9" title="9">     diamonds <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_n</span>(<span class="dt">size =</span> <span class="dv">200</span>), </a>
+<a class="sourceLine" id="cb1-10" title="10">     <span class="kw">aes</span>(<span class="dt">x =</span> <span class="op">!!</span>xvar,  <span class="dt">y  =</span> <span class="op">!!</span>yvar)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="st">  </span><span class="kw">geom_point</span>()</a>
+<a class="sourceLine" id="cb1-12" title="12">}</a>
+<a class="sourceLine" id="cb1-13" title="13"></a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="co"># test for Muggle functionality:</span></a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="co"># muggle_plot(as.name(&quot;cut&quot;), </span></a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="co">#             as.name(&quot;price&quot;))</span></a></code></pre></div>
 </div>
 <div class="col2">
 <ul>
@@ -987,14 +1020,14 @@ AttaliTech Ltd, <a href="http://AttaliTech.com" class="uri">http://AttaliTech.co
 <h2>Specifications for User Interface</h2>
 <div class="container">
 <div class="colsmall">
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">user_interface &lt;-<span class="st"> </span><span class="kw">tagList</span>(</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw">h2</span>(<span class="st">&quot;A very basic Shiny App&quot;</span>),</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="kw">p</span>(<span class="st">&quot;This app demonstrates the split </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="st">    between the Muggle and Wizard worlds&quot;</span>),</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="kw">actionButton</span>(<span class="st">&quot;go&quot;</span>, <span class="st">&quot;Go!&quot;</span>),</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">  <span class="kw">plotOutput</span>(<span class="st">&quot;main&quot;</span>),</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">  <span class="kw">textOutput</span>(<span class="st">&quot;button_message&quot;</span>)</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">user_interface &lt;-<span class="st"> </span><span class="kw">tagList</span>(</a>
+<a class="sourceLine" id="cb2-2" title="2">  <span class="kw">h2</span>(<span class="st">&quot;A very basic Shiny App&quot;</span>),</a>
+<a class="sourceLine" id="cb2-3" title="3">  <span class="kw">p</span>(<span class="st">&quot;This app demonstrates the split </span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">    between the Muggle and Wizard worlds&quot;</span>),</a>
+<a class="sourceLine" id="cb2-5" title="5">  <span class="kw">actionButton</span>(<span class="st">&quot;go&quot;</span>, <span class="st">&quot;Go!&quot;</span>),</a>
+<a class="sourceLine" id="cb2-6" title="6">  <span class="kw">plotOutput</span>(<span class="st">&quot;main&quot;</span>),</a>
+<a class="sourceLine" id="cb2-7" title="7">  <span class="kw">textOutput</span>(<span class="st">&quot;button_message&quot;</span>)</a>
+<a class="sourceLine" id="cb2-8" title="8">)</a></code></pre></div>
 </div>
 <div class="col4">
 <ul>
@@ -1010,16 +1043,16 @@ AttaliTech Ltd, <a href="http://AttaliTech.com" class="uri">http://AttaliTech.co
 <p>I’m calling it <code>reactive_logic</code> but it’s usually called “server”.</p>
 <div class="container">
 <div class="col">
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">reactive_logic &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">  output<span class="op">$</span>main &lt;-<span class="st"> </span><span class="kw">renderPlot</span>(</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="kw">muggle_plot</span>(<span class="kw">as.name</span>(<span class="st">&quot;cut&quot;</span>), </a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">                <span class="kw">as.name</span>(<span class="st">&quot;price&quot;</span>))</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">  )</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">  output<span class="op">$</span>button_message &lt;-<span class="st"> </span><span class="kw">renderText</span>(</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="kw">paste</span>(<span class="st">&quot;You have pressed the button&quot;</span>, input<span class="op">$</span>go, </a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">          <span class="st">&quot;times.&quot;</span>)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">  )</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">}</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">reactive_logic &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb3-2" title="2">  output<span class="op">$</span>main &lt;-<span class="st"> </span><span class="kw">renderPlot</span>(</a>
+<a class="sourceLine" id="cb3-3" title="3">    <span class="kw">muggle_plot</span>(<span class="kw">as.name</span>(<span class="st">&quot;cut&quot;</span>), </a>
+<a class="sourceLine" id="cb3-4" title="4">                <span class="kw">as.name</span>(<span class="st">&quot;price&quot;</span>))</a>
+<a class="sourceLine" id="cb3-5" title="5">  )</a>
+<a class="sourceLine" id="cb3-6" title="6">  output<span class="op">$</span>button_message &lt;-<span class="st"> </span><span class="kw">renderText</span>(</a>
+<a class="sourceLine" id="cb3-7" title="7">    <span class="kw">paste</span>(<span class="st">&quot;You have pressed the button&quot;</span>, input<span class="op">$</span>go, </a>
+<a class="sourceLine" id="cb3-8" title="8">          <span class="st">&quot;times.&quot;</span>)</a>
+<a class="sourceLine" id="cb3-9" title="9">  )</a>
+<a class="sourceLine" id="cb3-10" title="10">}</a></code></pre></div>
 </div>
 <div class="col3" style="font-size:90%">
 <ul>
@@ -1032,13 +1065,13 @@ AttaliTech Ltd, <a href="http://AttaliTech.com" class="uri">http://AttaliTech.co
 </ul>
 </div>
 </div>
-<p><strong>Your turn</strong>: At the console, run <code>renderText(&quot;hello&quot;)</code>. What’s the value of this expression? Are their side effects?</p>
+<p><strong>Your turn</strong>: At the console, run <code>renderText("hello")</code>. What’s the value of this expression? Are their side effects?</p>
 </section><section id="invoking-the-app" class="slide level2" style="margin:0px;font-size:80%;">
 <h2>Invoking the app</h2>
 <div class="container">
 <div class="col">
 <p>A simple function call:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">shinyApp</span>(user_interface, reactive_logic)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">shinyApp</span>(user_interface, reactive_logic)</a></code></pre></div>
 <p><strong>Your turn</strong>: Run it in the console.</p>
 </div>
 <div class="col">
@@ -1075,19 +1108,49 @@ AttaliTech Ltd, <a href="http://AttaliTech.com" class="uri">http://AttaliTech.co
 <li>Organizing <em>within</em> framework elements</li>
 </ol>
 </section></section>
-<section><section id="widgets" class="title-slide slide level1"><h1>Widgets</h1></section><section id="project-1" class="slide level2" style="margin:0px;font-size:90%;">
+<section><section id="widgets" class="title-slide slide level1"><h1>Widgets</h1><style>
+.container{
+    display: flex;
+}
+.colsmall {
+    flex: 0.5;
+}
+.col{
+    flex: 1;
+}
+.col2{
+    flex: 2;
+}
+.col3{
+    flex: 3;
+}
+.col4{
+    flex: 4;
+}
+</style>
+<style type="text/css">
+  .reveal p {
+    text-align: left;
+  }
+  .reveal ul {
+    display: block;
+  }
+  .reveal ol {
+    display: block;
+  }
+</style></section><section id="project-1" class="slide level2" style="margin:0px;font-size:90%;">
 <h2>Project-1</h2>
 <p>The file <code>app.R</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(shiny)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">source</span>(<span class="st">&quot;muggle.R&quot;</span>)</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw">source</span>(<span class="st">&quot;UI_starting.R&quot;</span>) <span class="co"># defines UI  &lt;-</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">Server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">  <span class="kw">source</span>(<span class="st">&quot;Server.R&quot;</span>, <span class="dt">local =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">}</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="kw">shinyApp</span>(UI, Server)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">library</span>(shiny)</a>
+<a class="sourceLine" id="cb5-2" title="2"></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw">source</span>(<span class="st">&quot;muggle.R&quot;</span>)</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="kw">source</span>(<span class="st">&quot;UI_starting.R&quot;</span>) <span class="co"># defines UI  &lt;-</span></a>
+<a class="sourceLine" id="cb5-5" title="5"></a>
+<a class="sourceLine" id="cb5-6" title="6">Server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb5-7" title="7">  <span class="kw">source</span>(<span class="st">&quot;Server.R&quot;</span>, <span class="dt">local =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-8" title="8">}</a>
+<a class="sourceLine" id="cb5-9" title="9"></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="kw">shinyApp</span>(UI, Server)</a></code></pre></div>
 <p><strong>Your turn:</strong> Open <code>app.R</code> and run the app. Exercise the inputs around to confirm that they work.</p>
 </section><section id="the-ui" class="slide level2" style="margin:0px;font-size:80%;">
 <h2>The UI</h2>
@@ -1127,7 +1190,7 @@ UI <- tagList(
 <p><img data-src="images/ui-outputs.png" /></p>
 </section><section id="widgets-are-html" class="slide level2">
 <h2>Widgets are HTML</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">actionButton</span>(<span class="st">&quot;fred&quot;</span>, <span class="dt">label=</span><span class="st">&quot;?&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">actionButton</span>(<span class="st">&quot;fred&quot;</span>, <span class="dt">label=</span><span class="st">&quot;?&quot;</span>)</a></code></pre></div>
 <pre><code>&lt;button id=&quot;fred&quot; type=&quot;button&quot; class=&quot;btn btn-default action-button&quot;&gt;?&lt;/button&gt;</code></pre>
 </section><section id="an-html-example" class="slide level2">
 <h2>An HTML Example</h2>
@@ -1158,7 +1221,7 @@ UI <- tagList(
 </section><section id="display-ui-input-values" class="slide level2">
 <h2>Display UI input values</h2>
 <p>Preface: The <code>glue()</code> function is a nice way to embed values in strings.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">glue<span class="op">::</span><span class="kw">glue</span>(<span class="st">&quot;The value of 3 + 7 is {3+7}.&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">glue<span class="op">::</span><span class="kw">glue</span>(<span class="st">&quot;The value of 3 + 7 is {3+7}.&quot;</span>)</a></code></pre></div>
 <pre><code>## The value of 3 + 7 is 10.</code></pre>
 <p><strong>TASK</strong>: Add an element to your server to display in <code>output$felix</code> a string with the values of the UI inputs you added.</p>
 </section></section>
@@ -1210,16 +1273,16 @@ UI <- tagList(
 <p><img data-src="images/fluid-wide.png" /></p>
 </section><section id="the-tree" class="slide level2">
 <h2>The tree</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">UI &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="kw">fluidRow</span>(</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="kw">column</span>(<span class="dt">width  =</span> <span class="dv">4</span>, First, Second),</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">    <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">3</span>, Third)</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">  ),</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">  <span class="kw">fluidRow</span>(Fourth, Fifth),</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">  <span class="dt">title =</span> <span class="st">&quot;Fluid!&quot;</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">UI &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</a>
+<a class="sourceLine" id="cb10-2" title="2">  <span class="kw">fluidRow</span>(</a>
+<a class="sourceLine" id="cb10-3" title="3">    <span class="kw">column</span>(<span class="dt">width  =</span> <span class="dv">4</span>, First, Second),</a>
+<a class="sourceLine" id="cb10-4" title="4">    <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">3</span>, Third)</a>
+<a class="sourceLine" id="cb10-5" title="5">  ),</a>
+<a class="sourceLine" id="cb10-6" title="6">  <span class="kw">fluidRow</span>(Fourth, Fifth),</a>
+<a class="sourceLine" id="cb10-7" title="7">  <span class="dt">title =</span> <span class="st">&quot;Fluid!&quot;</span></a>
+<a class="sourceLine" id="cb10-8" title="8">)</a></code></pre></div>
 <p>Your turn: Draw this as a tree with <code>First</code>, <code>Second</code> as the leaves and UI layout statements as the nodes. Hint: The root is at <code>fluidPage()</code>.</p>
-<p>What’s up with <code>title = &quot;Fluid!&quot;</code>?</p>
+<p>What’s up with <code>title = "Fluid!"</code>?</p>
 </section><section id="fluidpage-is-responsive" class="slide level2">
 <h2>fluidPage() is responsive</h2>
 <p>The layout depends on the width of the device.</p>
@@ -1244,29 +1307,29 @@ UI <- tagList(
 <p>Modify <code>UI-languages.R</code> to implement this tree.</p>
 </section><section id="answer" class="slide level2">
 <h2>Answer:</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">UI &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="kw">fluidRow</span>(</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="kw">column</span>(<span class="dt">width  =</span> <span class="dv">4</span>, First, Second, Third),</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">    <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">6</span>,</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">      <span class="kw">column</span>(<span class="dt">width=</span><span class="dv">8</span>, Fourth), </a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">      <span class="kw">column</span>(<span class="dt">width=</span><span class="dv">3</span>, Fifth)</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">    )</a>
-<a class="sourceLine" id="cb11-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb11-9" data-line-number="9">)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">UI &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</a>
+<a class="sourceLine" id="cb11-2" title="2">  <span class="kw">fluidRow</span>(</a>
+<a class="sourceLine" id="cb11-3" title="3">    <span class="kw">column</span>(<span class="dt">width  =</span> <span class="dv">4</span>, First, Second, Third),</a>
+<a class="sourceLine" id="cb11-4" title="4">    <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">6</span>,</a>
+<a class="sourceLine" id="cb11-5" title="5">      <span class="kw">column</span>(<span class="dt">width=</span><span class="dv">8</span>, Fourth), </a>
+<a class="sourceLine" id="cb11-6" title="6">      <span class="kw">column</span>(<span class="dt">width=</span><span class="dv">3</span>, Fifth)</a>
+<a class="sourceLine" id="cb11-7" title="7">    )</a>
+<a class="sourceLine" id="cb11-8" title="8">  )</a>
+<a class="sourceLine" id="cb11-9" title="9">)</a></code></pre></div>
 </section><section id="your-turn-another-tree" class="slide level2">
 <h2>Your turn: Another tree</h2>
 <p><img data-src="images/fluid-4.png" /> Implement this UI. You’ll need to use both the <code>width</code> and <code>offset</code> arguments to <code>column()</code>.</p>
 </section><section id="answer-1" class="slide level2">
 <h2>Answer:</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">UI &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="kw">fluidRow</span>(</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">    <span class="kw">column</span>(<span class="dt">width  =</span> <span class="dv">4</span>, First, Second, Third),</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">    <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">6</span>, <span class="dt">offset =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">      <span class="kw">column</span>(<span class="dt">width=</span><span class="dv">8</span>,Fourth), </a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">      <span class="kw">column</span>(<span class="dt">width=</span><span class="dv">3</span>, <span class="dt">offset=</span><span class="dv">1</span>, Fifth)</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">    )</a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">UI &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</a>
+<a class="sourceLine" id="cb12-2" title="2">  <span class="kw">fluidRow</span>(</a>
+<a class="sourceLine" id="cb12-3" title="3">    <span class="kw">column</span>(<span class="dt">width  =</span> <span class="dv">4</span>, First, Second, Third),</a>
+<a class="sourceLine" id="cb12-4" title="4">    <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">6</span>, <span class="dt">offset =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb12-5" title="5">      <span class="kw">column</span>(<span class="dt">width=</span><span class="dv">8</span>,Fourth), </a>
+<a class="sourceLine" id="cb12-6" title="6">      <span class="kw">column</span>(<span class="dt">width=</span><span class="dv">3</span>, <span class="dt">offset=</span><span class="dv">1</span>, Fifth)</a>
+<a class="sourceLine" id="cb12-7" title="7">    )</a>
+<a class="sourceLine" id="cb12-8" title="8">  )</a>
+<a class="sourceLine" id="cb12-9" title="9">)</a></code></pre></div>
 </section><section id="convenience-ui-layout-functions" class="slide level2">
 <h2>Convenience UI layout functions</h2>
 <ul>
@@ -1284,42 +1347,42 @@ UI <- tagList(
 <p><img data-src="images/layout-exercise-A.png" /></p>
 </section><section id="the-tree-1" class="slide level2">
 <h2>The tree</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">UI &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">    <span class="kw">titlePanel</span>(<span class="st">&quot;My App&#39;s Title&quot;</span>),</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">    <span class="kw">fluidRow</span>(</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">      <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">4</span>, </a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">        <span class="kw">wellPanel</span>(</a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">          First, </a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">          <span class="kw">wellPanel</span>(</a>
-<a class="sourceLine" id="cb13-9" data-line-number="9">            Second), </a>
-<a class="sourceLine" id="cb13-10" data-line-number="10">          Third)),</a>
-<a class="sourceLine" id="cb13-11" data-line-number="11">      <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">8</span>, </a>
-<a class="sourceLine" id="cb13-12" data-line-number="12">        <span class="kw">wellPanel</span>(</a>
-<a class="sourceLine" id="cb13-13" data-line-number="13">          Fourth), </a>
-<a class="sourceLine" id="cb13-14" data-line-number="14">        Fifth)</a>
-<a class="sourceLine" id="cb13-15" data-line-number="15">  )</a>
-<a class="sourceLine" id="cb13-16" data-line-number="16">)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">UI &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw">fluidPage</span>(</a>
+<a class="sourceLine" id="cb13-3" title="3">    <span class="kw">titlePanel</span>(<span class="st">&quot;My App&#39;s Title&quot;</span>),</a>
+<a class="sourceLine" id="cb13-4" title="4">    <span class="kw">fluidRow</span>(</a>
+<a class="sourceLine" id="cb13-5" title="5">      <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">4</span>, </a>
+<a class="sourceLine" id="cb13-6" title="6">        <span class="kw">wellPanel</span>(</a>
+<a class="sourceLine" id="cb13-7" title="7">          First, </a>
+<a class="sourceLine" id="cb13-8" title="8">          <span class="kw">wellPanel</span>(</a>
+<a class="sourceLine" id="cb13-9" title="9">            Second), </a>
+<a class="sourceLine" id="cb13-10" title="10">          Third)),</a>
+<a class="sourceLine" id="cb13-11" title="11">      <span class="kw">column</span>(<span class="dt">width =</span> <span class="dv">8</span>, </a>
+<a class="sourceLine" id="cb13-12" title="12">        <span class="kw">wellPanel</span>(</a>
+<a class="sourceLine" id="cb13-13" title="13">          Fourth), </a>
+<a class="sourceLine" id="cb13-14" title="14">        Fifth)</a>
+<a class="sourceLine" id="cb13-15" title="15">  )</a>
+<a class="sourceLine" id="cb13-16" title="16">)</a></code></pre></div>
 </section><section id="your-turn-make-this-1" class="slide level2">
 <h2>Your turn: Make this</h2>
 <p>Use <code>fluidPage()</code>, <code>sidebarLayout()</code>, <code>sidebarPanel()</code>, mainPanel()<code>and</code>wellPanel()`</p>
 <p><img data-src="images/layout-exercise-B.png" /></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">UI &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">  </span><span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">    <span class="kw">sidebarLayout</span>(</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">      <span class="kw">titlePanel</span>(<span class="st">&quot;My App&#39;s Title&quot;</span>),</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">      <span class="kw">sidebarLayout</span>(</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">        <span class="kw">sidebarPanel</span>(</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">          First, </a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">          <span class="kw">wellPanel</span>(Second)),</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">        <span class="kw">mainPanel</span>(</a>
-<a class="sourceLine" id="cb14-10" data-line-number="10">         <span class="kw">fluidRow</span>(</a>
-<a class="sourceLine" id="cb14-11" data-line-number="11">           <span class="kw">column</span>(Third, <span class="dt">width=</span><span class="dv">8</span>), </a>
-<a class="sourceLine" id="cb14-12" data-line-number="12">           <span class="kw">column</span>(Fourth, <span class="dt">width=</span><span class="dv">4</span>)), </a>
-<a class="sourceLine" id="cb14-13" data-line-number="13">         Fifth)</a>
-<a class="sourceLine" id="cb14-14" data-line-number="14">    )</a>
-<a class="sourceLine" id="cb14-15" data-line-number="15">  )</a>
-<a class="sourceLine" id="cb14-16" data-line-number="16">)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">UI &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw">fluidPage</span>(</a>
+<a class="sourceLine" id="cb14-3" title="3">    <span class="kw">sidebarLayout</span>(</a>
+<a class="sourceLine" id="cb14-4" title="4">      <span class="kw">titlePanel</span>(<span class="st">&quot;My App&#39;s Title&quot;</span>),</a>
+<a class="sourceLine" id="cb14-5" title="5">      <span class="kw">sidebarLayout</span>(</a>
+<a class="sourceLine" id="cb14-6" title="6">        <span class="kw">sidebarPanel</span>(</a>
+<a class="sourceLine" id="cb14-7" title="7">          First, </a>
+<a class="sourceLine" id="cb14-8" title="8">          <span class="kw">wellPanel</span>(Second)),</a>
+<a class="sourceLine" id="cb14-9" title="9">        <span class="kw">mainPanel</span>(</a>
+<a class="sourceLine" id="cb14-10" title="10">         <span class="kw">fluidRow</span>(</a>
+<a class="sourceLine" id="cb14-11" title="11">           <span class="kw">column</span>(Third, <span class="dt">width=</span><span class="dv">8</span>), </a>
+<a class="sourceLine" id="cb14-12" title="12">           <span class="kw">column</span>(Fourth, <span class="dt">width=</span><span class="dv">4</span>)), </a>
+<a class="sourceLine" id="cb14-13" title="13">         Fifth)</a>
+<a class="sourceLine" id="cb14-14" title="14">    )</a>
+<a class="sourceLine" id="cb14-15" title="15">  )</a>
+<a class="sourceLine" id="cb14-16" title="16">)</a></code></pre></div>
 </section><section id="high-level-layouts" class="slide level2">
 <h2>High-level layouts</h2>
 <ul>
@@ -1331,41 +1394,41 @@ UI <- tagList(
 </section><section id="navbarpage" class="slide level2">
 <h2>navbarPage</h2>
 <p><img data-src="images/layout-exercise-C.png" /></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">navbarPage</span>(</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="dt">title =</span> <span class="st">&quot;A navbarPage App&quot;</span>,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="kw">tabPanel</span>(<span class="dt">title=</span><span class="st">&quot;Latin/Arabic&quot;</span>, First, Fourth),</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">  <span class="kw">navbarMenu</span>(<span class="dt">title=</span><span class="st">&quot;Others&quot;</span>,</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">             <span class="kw">tabPanel</span>(<span class="dt">title=</span><span class="st">&quot;Ukrainian&quot;</span>, Fourth),</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">             <span class="kw">tabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Hebrew&quot;</span>, Second),</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">             <span class="kw">tabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Chinese&quot;</span>, Fifth)</a>
-<a class="sourceLine" id="cb15-8" data-line-number="8">             )</a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">  )</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">navbarPage</span>(</a>
+<a class="sourceLine" id="cb15-2" title="2">  <span class="dt">title =</span> <span class="st">&quot;A navbarPage App&quot;</span>,</a>
+<a class="sourceLine" id="cb15-3" title="3">  <span class="kw">tabPanel</span>(<span class="dt">title=</span><span class="st">&quot;Latin/Arabic&quot;</span>, First, Fourth),</a>
+<a class="sourceLine" id="cb15-4" title="4">  <span class="kw">navbarMenu</span>(<span class="dt">title=</span><span class="st">&quot;Others&quot;</span>,</a>
+<a class="sourceLine" id="cb15-5" title="5">             <span class="kw">tabPanel</span>(<span class="dt">title=</span><span class="st">&quot;Ukrainian&quot;</span>, Fourth),</a>
+<a class="sourceLine" id="cb15-6" title="6">             <span class="kw">tabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Hebrew&quot;</span>, Second),</a>
+<a class="sourceLine" id="cb15-7" title="7">             <span class="kw">tabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Chinese&quot;</span>, Fifth)</a>
+<a class="sourceLine" id="cb15-8" title="8">             )</a>
+<a class="sourceLine" id="cb15-9" title="9">  )</a></code></pre></div>
 </section><section id="miniui" class="slide level2">
 <h2>miniUI</h2>
 <p><img data-src="images/layout-exercise-D.png" /></p>
 </section><section id="the-tree-2" class="slide level2">
 <h2>The tree</h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">miniUI<span class="op">::</span><span class="kw">miniPage</span>(</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">    <span class="kw">miniTitleBar</span>(<span class="st">&quot;A miniPage App&quot;</span>),</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">    </a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">    <span class="kw">miniContentPanel</span>(Fourth),</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">    <span class="kw">miniTabstripPanel</span>(</a>
-<a class="sourceLine" id="cb16-6" data-line-number="6">      <span class="kw">miniTabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Chinese&quot;</span>, </a>
-<a class="sourceLine" id="cb16-7" data-line-number="7">                   <span class="kw">miniButtonBlock</span>(</a>
-<a class="sourceLine" id="cb16-8" data-line-number="8">                     <span class="kw">actionButton</span>(<span class="st">&quot;reset&quot;</span>, <span class="st">&quot;Reset to defaults&quot;</span>),</a>
-<a class="sourceLine" id="cb16-9" data-line-number="9">                     <span class="kw">actionButton</span>(<span class="st">&quot;clear&quot;</span>, <span class="st">&quot;Clear all&quot;</span>)</a>
-<a class="sourceLine" id="cb16-10" data-line-number="10">                   ),</a>
-<a class="sourceLine" id="cb16-11" data-line-number="11">                   Fifth),</a>
-<a class="sourceLine" id="cb16-12" data-line-number="12">      <span class="kw">miniTabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Ukrainian&quot;</span>, </a>
-<a class="sourceLine" id="cb16-13" data-line-number="13">                   <span class="kw">miniTabstripPanel</span>(</a>
-<a class="sourceLine" id="cb16-14" data-line-number="14">                     <span class="kw">miniTabPanel</span>(<span class="dt">title=</span><span class="st">&quot;First&quot;</span>, First),</a>
-<a class="sourceLine" id="cb16-15" data-line-number="15">                     <span class="kw">miniTabPanel</span>(<span class="dt">title=</span><span class="st">&quot;Second&quot;</span>, Second)),</a>
-<a class="sourceLine" id="cb16-16" data-line-number="16">                   Third),</a>
-<a class="sourceLine" id="cb16-17" data-line-number="17">      <span class="kw">miniTabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Others&quot;</span>,</a>
-<a class="sourceLine" id="cb16-18" data-line-number="18">                   First,</a>
-<a class="sourceLine" id="cb16-19" data-line-number="19">                   Second,</a>
-<a class="sourceLine" id="cb16-20" data-line-number="20">                   Third)</a>
-<a class="sourceLine" id="cb16-21" data-line-number="21">    )</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">miniUI<span class="op">::</span><span class="kw">miniPage</span>(</a>
+<a class="sourceLine" id="cb16-2" title="2">    <span class="kw">miniTitleBar</span>(<span class="st">&quot;A miniPage App&quot;</span>),</a>
+<a class="sourceLine" id="cb16-3" title="3">    </a>
+<a class="sourceLine" id="cb16-4" title="4">    <span class="kw">miniContentPanel</span>(Fourth),</a>
+<a class="sourceLine" id="cb16-5" title="5">    <span class="kw">miniTabstripPanel</span>(</a>
+<a class="sourceLine" id="cb16-6" title="6">      <span class="kw">miniTabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Chinese&quot;</span>, </a>
+<a class="sourceLine" id="cb16-7" title="7">                   <span class="kw">miniButtonBlock</span>(</a>
+<a class="sourceLine" id="cb16-8" title="8">                     <span class="kw">actionButton</span>(<span class="st">&quot;reset&quot;</span>, <span class="st">&quot;Reset to defaults&quot;</span>),</a>
+<a class="sourceLine" id="cb16-9" title="9">                     <span class="kw">actionButton</span>(<span class="st">&quot;clear&quot;</span>, <span class="st">&quot;Clear all&quot;</span>)</a>
+<a class="sourceLine" id="cb16-10" title="10">                   ),</a>
+<a class="sourceLine" id="cb16-11" title="11">                   Fifth),</a>
+<a class="sourceLine" id="cb16-12" title="12">      <span class="kw">miniTabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Ukrainian&quot;</span>, </a>
+<a class="sourceLine" id="cb16-13" title="13">                   <span class="kw">miniTabstripPanel</span>(</a>
+<a class="sourceLine" id="cb16-14" title="14">                     <span class="kw">miniTabPanel</span>(<span class="dt">title=</span><span class="st">&quot;First&quot;</span>, First),</a>
+<a class="sourceLine" id="cb16-15" title="15">                     <span class="kw">miniTabPanel</span>(<span class="dt">title=</span><span class="st">&quot;Second&quot;</span>, Second)),</a>
+<a class="sourceLine" id="cb16-16" title="16">                   Third),</a>
+<a class="sourceLine" id="cb16-17" title="17">      <span class="kw">miniTabPanel</span>(<span class="dt">title =</span> <span class="st">&quot;Others&quot;</span>,</a>
+<a class="sourceLine" id="cb16-18" title="18">                   First,</a>
+<a class="sourceLine" id="cb16-19" title="19">                   Second,</a>
+<a class="sourceLine" id="cb16-20" title="20">                   Third)</a>
+<a class="sourceLine" id="cb16-21" title="21">    )</a></code></pre></div>
 </section><section id="exercise-n-1" class="slide level2">
 <h2>Exercise n-1</h2>
 <p>With your neighbor, draw the UI tree on paper.</p>
@@ -1394,7 +1457,7 @@ UI <- tagList(
 <p>The file <code>server-starting.R</code> contains statements that call some of the Shiny functions to create reactives. These statements will be <code>source()</code>d into the <code>server()</code> function, as if they were typed there.</p>
 <p>To start the server:</p>
 <ol type="1">
-<li>Create a reactive value <code>entry_string</code>. This will store the number being created at the keyboard. Initialize it to a blank string: <code>&quot;&quot;</code>.
+<li>Create a reactive value <code>entry_string</code>. This will store the number being created at the keyboard. Initialize it to a blank string: <code>""</code>.
 <ul>
 <li>which of the Shiny functions to make reactives will you use?</li>
 </ul></li>
@@ -1434,7 +1497,7 @@ UI <- tagList(
 </section></section>
 <section><section id="reactives" class="title-slide slide level1" data-background-image="./images/cityscape.png"><h1>Reactives</h1></section><section id="function-environment-closure" class="slide level2">
 <h2>Function + Environment = “<em>closure</em>”</h2>
-<p>Functions are containers for R code.<a href="#/fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>Functions are containers for R code.<a href="#/fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="container">
 <div class="col">
 <p>Constructing functions</p>
@@ -1486,37 +1549,37 @@ UI <- tagList(
 </ul>
 </section><section id="example-a-counter" class="slide level2">
 <h2>Example: a counter</h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">make_counter &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">start =</span> <span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">  val &lt;-<span class="st"> </span>start</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">  <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">    <span class="dt">incr =</span> <span class="cf">function</span>() {val &lt;&lt;-<span class="st"> </span>val <span class="op">+</span><span class="st"> </span><span class="dv">1</span>},</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">    <span class="dt">decr =</span> <span class="cf">function</span>() {val &lt;&lt;-<span class="st"> </span>val <span class="op">-</span><span class="st"> </span><span class="dv">1</span>},</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6">    <span class="dt">reset =</span> <span class="cf">function</span>(<span class="dt">start =</span> <span class="dv">0</span>) {val &lt;&lt;-<span class="st"> </span>start},</a>
-<a class="sourceLine" id="cb17-7" data-line-number="7">    <span class="dt">value =</span> <span class="cf">function</span>() val</a>
-<a class="sourceLine" id="cb17-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb17-9" data-line-number="9">}</a></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">cars &lt;-<span class="st"> </span><span class="kw">make_counter</span>()</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">trucks &lt;-<span class="st"> </span><span class="kw">make_counter</span>()</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">cars<span class="op">$</span><span class="kw">incr</span>(); cars<span class="op">$</span><span class="kw">incr</span>(); trucks<span class="op">$</span><span class="kw">incr</span>(); cars<span class="op">$</span><span class="kw">incr</span>()</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">cars<span class="op">$</span><span class="kw">value</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">make_counter &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">start =</span> <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb17-2" title="2">  val &lt;-<span class="st"> </span>start</a>
+<a class="sourceLine" id="cb17-3" title="3">  <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb17-4" title="4">    <span class="dt">incr =</span> <span class="cf">function</span>() {val &lt;&lt;-<span class="st"> </span>val <span class="op">+</span><span class="st"> </span><span class="dv">1</span>},</a>
+<a class="sourceLine" id="cb17-5" title="5">    <span class="dt">decr =</span> <span class="cf">function</span>() {val &lt;&lt;-<span class="st"> </span>val <span class="op">-</span><span class="st"> </span><span class="dv">1</span>},</a>
+<a class="sourceLine" id="cb17-6" title="6">    <span class="dt">reset =</span> <span class="cf">function</span>(<span class="dt">start =</span> <span class="dv">0</span>) {val &lt;&lt;-<span class="st"> </span>start},</a>
+<a class="sourceLine" id="cb17-7" title="7">    <span class="dt">value =</span> <span class="cf">function</span>() val</a>
+<a class="sourceLine" id="cb17-8" title="8">  )</a>
+<a class="sourceLine" id="cb17-9" title="9">}</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">cars &lt;-<span class="st"> </span><span class="kw">make_counter</span>()</a>
+<a class="sourceLine" id="cb18-2" title="2">trucks &lt;-<span class="st"> </span><span class="kw">make_counter</span>()</a>
+<a class="sourceLine" id="cb18-3" title="3">cars<span class="op">$</span><span class="kw">incr</span>(); cars<span class="op">$</span><span class="kw">incr</span>(); trucks<span class="op">$</span><span class="kw">incr</span>(); cars<span class="op">$</span><span class="kw">incr</span>()</a>
+<a class="sourceLine" id="cb18-4" title="4">cars<span class="op">$</span><span class="kw">value</span>()</a></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">trucks<span class="op">$</span><span class="kw">value</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">trucks<span class="op">$</span><span class="kw">value</span>()</a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 </section><section id="other-ways-to-capture-unevaluated-code" class="slide level2">
 <h2>Other ways to capture unevaluated code</h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">my_code &lt;-<span class="st"> </span><span class="kw">substitute</span>(x &lt;-<span class="st"> </span><span class="dv">17</span>)</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">bigger_code &lt;-<span class="st"> </span><span class="kw">substitute</span>({</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3">  x &lt;-<span class="st"> </span><span class="dv">23</span></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4">  y &lt;-<span class="st"> </span><span class="dv">44</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5">})</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">my_code &lt;-<span class="st"> </span><span class="kw">substitute</span>(x &lt;-<span class="st"> </span><span class="dv">17</span>)</a>
+<a class="sourceLine" id="cb22-2" title="2">bigger_code &lt;-<span class="st"> </span><span class="kw">substitute</span>({</a>
+<a class="sourceLine" id="cb22-3" title="3">  x &lt;-<span class="st"> </span><span class="dv">23</span></a>
+<a class="sourceLine" id="cb22-4" title="4">  y &lt;-<span class="st"> </span><span class="dv">44</span></a>
+<a class="sourceLine" id="cb22-5" title="5">})</a></code></pre></div>
 <p>The <code>&lt;rlang&gt;</code> package offers another system for doing this.</p>
 </section><section id="your-turn-2" class="slide level2">
 <h2>Your turn:</h2>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">my_code &lt;-<span class="st"> </span><span class="kw">substitute</span>(x &lt;-<span class="st"> </span><span class="dv">17</span>)</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">bigger_code &lt;-<span class="st"> </span><span class="kw">substitute</span>({</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">  x &lt;-<span class="st"> </span><span class="dv">23</span></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">  y &lt;-<span class="st"> </span><span class="dv">44</span></a>
-<a class="sourceLine" id="cb23-5" data-line-number="5">})</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">my_code &lt;-<span class="st"> </span><span class="kw">substitute</span>(x &lt;-<span class="st"> </span><span class="dv">17</span>)</a>
+<a class="sourceLine" id="cb23-2" title="2">bigger_code &lt;-<span class="st"> </span><span class="kw">substitute</span>({</a>
+<a class="sourceLine" id="cb23-3" title="3">  x &lt;-<span class="st"> </span><span class="dv">23</span></a>
+<a class="sourceLine" id="cb23-4" title="4">  y &lt;-<span class="st"> </span><span class="dv">44</span></a>
+<a class="sourceLine" id="cb23-5" title="5">})</a></code></pre></div>
 <ol type="1">
 <li>Enter the above assignments in your console.</li>
 <li>What are the values of <code>x</code> and <code>y</code> <em>after</em> (1).</li>
@@ -1527,11 +1590,11 @@ UI <- tagList(
 </section><section id="back-to-the-knight-bus" class="slide level2">
 <h2>Back to the Knight Bus</h2>
 <p>Shiny uses this technique in its “server” function.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">knight_bus &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">  f1 &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">    input<span class="op">$</span>button <span class="op">==</span><span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">  }</a>
-<a class="sourceLine" id="cb24-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">knight_bus &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb24-2" title="2">  f1 &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb24-3" title="3">    input<span class="op">$</span>button <span class="op">==</span><span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb24-4" title="4">  }</a>
+<a class="sourceLine" id="cb24-5" title="5">}</a></code></pre></div>
 <p>The function <code>f1</code> knows to look to it’s birth environment for the value of <code>input</code>.</p>
 <p><code>shinyApp()</code> sets this up.</p>
 </section><section id="reactives-1" class="slide level2">
@@ -1659,7 +1722,7 @@ UI <- tagList(
 <h2>The wizard world</h2>
 <p>Wizards have two kinds of <em>state</em>:</p>
 <ol type="1">
-<li>Their value, e.g. <code>input$x_var</code>, a plot, a table</li>
+<li>Their value, e.g. <code>input$x_var</code>, a plot, a table</li>
 <li>Their <strong>validity</strong>
 <ul>
 <li>valid, invalidated, suspended</li>
@@ -1679,20 +1742,20 @@ UI <- tagList(
 </section><section id="pythagorean-1.r-inputs" class="slide level2">
 <h2><code>pythagorean-1.R</code>: Inputs</h2>
 <p>Create the inputs</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">ui &lt;-<span class="st"> </span><span class="kw">tagList</span>(</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">  ...</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">  <span class="kw">numericInput</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;Leg A:&quot;</span>, <span class="dt">value =</span> <span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4">  <span class="kw">numericInput</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;Leg B:&quot;</span>, <span class="dt">value =</span> <span class="dv">4</span>),</a>
-<a class="sourceLine" id="cb25-5" data-line-number="5">  ...</a>
-<a class="sourceLine" id="cb25-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">ui &lt;-<span class="st"> </span><span class="kw">tagList</span>(</a>
+<a class="sourceLine" id="cb25-2" title="2">  ...</a>
+<a class="sourceLine" id="cb25-3" title="3">  <span class="kw">numericInput</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;Leg A:&quot;</span>, <span class="dt">value =</span> <span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb25-4" title="4">  <span class="kw">numericInput</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;Leg B:&quot;</span>, <span class="dt">value =</span> <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb25-5" title="5">  ...</a>
+<a class="sourceLine" id="cb25-6" title="6">)</a></code></pre></div>
 </section><section id="pythagorean-1.r-outputs" class="slide level2">
 <h2><code>pythagorean-1.R</code>: Outputs</h2>
 <p>Describe the outputs</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">  output<span class="op">$</span>C &lt;-<span class="st"> </span><span class="kw">renderText</span>({</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3">    <span class="kw">sqrt</span>(input<span class="op">$</span>A<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>B<span class="op">^</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb26-4" data-line-number="4">  })</a>
-<a class="sourceLine" id="cb26-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb26-2" title="2">  output<span class="op">$</span>C &lt;-<span class="st"> </span><span class="kw">renderText</span>({</a>
+<a class="sourceLine" id="cb26-3" title="3">    <span class="kw">sqrt</span>(input<span class="op">$</span>A<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>B<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb26-4" title="4">  })</a>
+<a class="sourceLine" id="cb26-5" title="5">}</a></code></pre></div>
 <p>Mentioning <code>input$A</code> and <code>input$B</code> will create a connection when the app is run.</p>
 </section><section id="pythagorean-1.r-conductors" class="slide level2">
 <h2><code>pythagorean-1.R</code>: Conductors</h2>
@@ -1767,23 +1830,23 @@ UI <- tagList(
 </section><section id="using-reactlogshow" class="slide level2">
 <h2>Using <code>reactlogShow()</code></h2>
 <p>Dark lines show connections that have become apparent when “calculating” a node.</p>
-<p>Light lines are connections that have not yet become apparent.<a href="#/fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<p>Light lines are connections that have not yet become apparent.<a href="#/fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p>Let’s rewind to the beginning.</p>
 <p>Then one step at a time, and narrate.</p>
 </section><section id="adding-a-conductor-pythagorean-2.r" class="slide level2">
 <h2>Adding a conductor: <code>pythagorean-2.R</code></h2>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">  C2 &lt;-<span class="st"> </span><span class="kw">reactive</span>(input<span class="op">$</span>A<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>B<span class="op">^</span><span class="dv">2</span>, <span class="dt">label =</span> <span class="st">&quot;C2&quot;</span>)</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3">  output<span class="op">$</span>C &lt;-<span class="st"> </span><span class="kw">renderText</span>(<span class="kw">sqrt</span>(<span class="kw">C2</span>())) </a>
-<a class="sourceLine" id="cb27-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb27-2" title="2">  C2 &lt;-<span class="st"> </span><span class="kw">reactive</span>(input<span class="op">$</span>A<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>B<span class="op">^</span><span class="dv">2</span>, <span class="dt">label =</span> <span class="st">&quot;C2&quot;</span>)</a>
+<a class="sourceLine" id="cb27-3" title="3">  output<span class="op">$</span>C &lt;-<span class="st"> </span><span class="kw">renderText</span>(<span class="kw">sqrt</span>(<span class="kw">C2</span>())) </a>
+<a class="sourceLine" id="cb27-4" title="4">}</a></code></pre></div>
 <p>Run the app and <code>reactlogShow()</code></p>
 </section><section id="adding-another-conductor-phythagorean-3.r" class="slide level2">
 <h2>Adding another conductor: <code>phythagorean-3.R</code></h2>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2">  C2 &lt;-<span class="st"> </span><span class="kw">reactive</span>(input<span class="op">$</span>A<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>B<span class="op">^</span><span class="dv">2</span>, <span class="dt">label=</span><span class="st">&quot;C2&quot;</span>)</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3">  C  &lt;-<span class="st"> </span><span class="kw">reactive</span>(<span class="kw">sqrt</span>(<span class="kw">C2</span>()), <span class="dt">label =</span> <span class="st">&quot;C&quot;</span>)</a>
-<a class="sourceLine" id="cb28-4" data-line-number="4">  output<span class="op">$</span>C &lt;-<span class="st"> </span><span class="kw">renderText</span>(<span class="kw">C</span>())</a>
-<a class="sourceLine" id="cb28-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb28-2" title="2">  C2 &lt;-<span class="st"> </span><span class="kw">reactive</span>(input<span class="op">$</span>A<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>B<span class="op">^</span><span class="dv">2</span>, <span class="dt">label=</span><span class="st">&quot;C2&quot;</span>)</a>
+<a class="sourceLine" id="cb28-3" title="3">  C  &lt;-<span class="st"> </span><span class="kw">reactive</span>(<span class="kw">sqrt</span>(<span class="kw">C2</span>()), <span class="dt">label =</span> <span class="st">&quot;C&quot;</span>)</a>
+<a class="sourceLine" id="cb28-4" title="4">  output<span class="op">$</span>C &lt;-<span class="st"> </span><span class="kw">renderText</span>(<span class="kw">C</span>())</a>
+<a class="sourceLine" id="cb28-5" title="5">}</a></code></pre></div>
 </section><section id="make-a-cycle-and-show-the-reactivity-log" class="slide level2">
 <h2>Make a cycle and show the reactivity log</h2>
 <p>Perhaps hadley’s celsius/fahrenheit</p>
@@ -1818,7 +1881,37 @@ Or I will kill you</p>
 <li>set other input values. updateXXX should only be in an observer. You can’t rely on a reactive to execute.</li>
 </ul>
 </section></section>
-<section><section id="project-3-plot-a-data-frame" class="title-slide slide level1"><h1>Project 3: Plot a data frame</h1></section><section id="orientation-to-the-project" class="slide level2">
+<section><section id="project-3-plot-a-data-frame" class="title-slide slide level1"><h1>Project 3: Plot a data frame</h1><style>
+.container{
+    display: flex;
+}
+.colsmall {
+    flex: 0.5;
+}
+.col{
+    flex: 1;
+}
+.col2{
+    flex: 2;
+}
+.col3{
+    flex: 3;
+}
+.col4{
+    flex: 4;
+}
+</style>
+<style type="text/css">
+  .reveal p {
+    text-align: left;
+  }
+  .reveal ul {
+    display: block;
+  }
+  .reveal ol {
+    display: block;
+  }
+</style></section><section id="orientation-to-the-project" class="slide level2">
 <h2>Orientation to the project</h2>
 <p>This is to be an app where you can select a data frame from a set of choices, then select a response and explanatory variable. The app will:</p>
 <ol type="1">
@@ -1968,7 +2061,37 @@ Or I will kill you</p>
 <p>Changes in these are instantly available whenever needed.</p>
 <p>But they might not show up on the UI until later.</p>
 </section></section>
-<section><section id="project-3-server-components" class="title-slide slide level1"><h1>Project 3: server components</h1></section><section id="orientation-to-the-project-1" class="slide level2">
+<section><section id="project-3-server-components" class="title-slide slide level1"><h1>Project 3: server components</h1><style>
+.container{
+    display: flex;
+}
+.colsmall {
+    flex: 0.5;
+}
+.col{
+    flex: 1;
+}
+.col2{
+    flex: 2;
+}
+.col3{
+    flex: 3;
+}
+.col4{
+    flex: 4;
+}
+</style>
+<style type="text/css">
+  .reveal p {
+    text-align: left;
+  }
+  .reveal ul {
+    display: block;
+  }
+  .reveal ol {
+    display: block;
+  }
+</style></section><section id="orientation-to-the-project-1" class="slide level2">
 <h2>Orientation to the project</h2>
 <p>This is to be an app where you can select a data frame from a set of choices, then select a response and explanatory variable. The app will:</p>
 <ol type="1">
@@ -2060,11 +2183,15 @@ Or I will kill you</p>
 <li>when the response variable is not numeric, <code>lm()</code> complains. In such a case, arrange for the response variable to be binary: the most common level and “others”. Also, arrange the model to do logistic regression.</li>
 </ol>
 </section></section>
-<section id="shiny-documents" class="title-slide slide level1"><h1>Shiny documents</h1></section>
+<section id="shiny-documents" class="title-slide slide level1"><h1>Shiny documents</h1><!-- Laying out an Rmd document: Big Mac?
+
+See prototype.Rmd under 06-design-ui
+--></section>
 <section><section id="dashboards" class="title-slide slide level1"><h1>Dashboards</h1></section><section id="dashboards-1" class="slide level2">
 <h2>Dashboards</h2>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">library</span>(shiny)</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">library</span>(flexdashboard)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">library</span>(shiny)</a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="kw">library</span>(flexdashboard)</a></code></pre></div>
+<pre><code>## Warning: package &#39;flexdashboard&#39; was built under R version 3.6.2</code></pre>
 </section><section id="preliminaries" class="slide level2">
 <h2>Preliminaries</h2>
 <p>Nota Bene: The RStudio viewer does not display dashboards correctly. So use a web browser.</p>
@@ -2115,11 +2242,11 @@ output:
 </ul>
 </section><section id="value-boxes" class="slide level2">
 <h2>Value boxes</h2>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">spam &lt;-<span class="st"> </span><span class="dv">17</span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw">valueBox</span>(</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3">  spam, <span class="dt">icon =</span> <span class="st">&quot;fa-trash&quot;</span>,</a>
-<a class="sourceLine" id="cb31-4" data-line-number="4">  <span class="dt">color =</span> <span class="kw">ifelse</span>(spam <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>, <span class="st">&quot;warning&quot;</span>, <span class="st">&quot;primary&quot;</span>)</a>
-<a class="sourceLine" id="cb31-5" data-line-number="5">)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">spam &lt;-<span class="st"> </span><span class="dv">17</span></a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="kw">valueBox</span>(</a>
+<a class="sourceLine" id="cb32-3" title="3">  spam, <span class="dt">icon =</span> <span class="st">&quot;fa-trash&quot;</span>,</a>
+<a class="sourceLine" id="cb32-4" title="4">  <span class="dt">color =</span> <span class="kw">ifelse</span>(spam <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>, <span class="st">&quot;warning&quot;</span>, <span class="st">&quot;primary&quot;</span>)</a>
+<a class="sourceLine" id="cb32-5" title="5">)</a></code></pre></div>
 </section><section id="icons-from-font-awesome" class="slide level2">
 <h2>Icons from <a href="https://fontawesome.com/icons?d=gallery&amp;m=free">Font Awesome</a></h2>
 <p>1500+ free icons</p>
@@ -2164,7 +2291,7 @@ output:
 </ul></li>
 <li><code>tabBox()</code> – contains <code>tabPanel()</code>s</li>
 </ul></li>
-<li>Terminal elements (aka &quot;leaves)
+<li>Terminal elements (aka "leaves)
 <ul>
 <li><code>valueBox()</code>, <code>valueBoxOutput(id)</code>, <code>renderValueBox(valueBox())</code></li>
 <li><code>infoBox()</code>, <code>infoBoxOutput(id)</code>, <code>renderInfoBox(valueBox())</code></li>
@@ -2244,29 +2371,29 @@ output:
 <ol type="1">
 <li>Use <code>style=</code> attribute when creating a tag.</li>
 </ol>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">tags<span class="op">$</span><span class="kw">h1</span>(<span class="st">&quot;Title&quot;</span>, <span class="dt">style=</span><span class="st">&quot;color:red;&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">tags<span class="op">$</span><span class="kw">h1</span>(<span class="st">&quot;Title&quot;</span>, <span class="dt">style=</span><span class="st">&quot;color:red;&quot;</span>)</a></code></pre></div>
 <ol start="2" type="1">
 <li>Link to an external CSS file</li>
 </ol>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">tags<span class="op">$</span><span class="kw">head</span>(</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2">    tags<span class="op">$</span><span class="kw">link</span>(</a>
-<a class="sourceLine" id="cb34-3" data-line-number="3">       <span class="dt">rel =</span> <span class="st">&quot;stylesheet&quot;</span>,</a>
-<a class="sourceLine" id="cb34-4" data-line-number="4">       <span class="dt">type  =</span> <span class="st">&quot;text/css&quot;</span>,</a>
-<a class="sourceLine" id="cb34-5" data-line-number="5">       <span class="dt">href =</span> <span class="st">&quot;mycss.css&quot;</span></a>
-<a class="sourceLine" id="cb34-6" data-line-number="6">    )</a>
-<a class="sourceLine" id="cb34-7" data-line-number="7">)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">tags<span class="op">$</span><span class="kw">head</span>(</a>
+<a class="sourceLine" id="cb35-2" title="2">    tags<span class="op">$</span><span class="kw">link</span>(</a>
+<a class="sourceLine" id="cb35-3" title="3">       <span class="dt">rel =</span> <span class="st">&quot;stylesheet&quot;</span>,</a>
+<a class="sourceLine" id="cb35-4" title="4">       <span class="dt">type  =</span> <span class="st">&quot;text/css&quot;</span>,</a>
+<a class="sourceLine" id="cb35-5" title="5">       <span class="dt">href =</span> <span class="st">&quot;mycss.css&quot;</span></a>
+<a class="sourceLine" id="cb35-6" title="6">    )</a>
+<a class="sourceLine" id="cb35-7" title="7">)</a></code></pre></div>
 </div>
 <div class="col">
 <ol start="3" type="1">
 <li>Put a style tag in the header</li>
 </ol>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">tags<span class="op">$</span><span class="kw">head</span>(</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">  tags<span class="op">$</span><span class="kw">style</span>(</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3">    <span class="kw">HTML</span>(<span class="st">&quot;p { color:red;}&quot;</span>)</a>
-<a class="sourceLine" id="cb35-4" data-line-number="4">  )</a>
-<a class="sourceLine" id="cb35-5" data-line-number="5">)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">tags<span class="op">$</span><span class="kw">head</span>(</a>
+<a class="sourceLine" id="cb36-2" title="2">  tags<span class="op">$</span><span class="kw">style</span>(</a>
+<a class="sourceLine" id="cb36-3" title="3">    <span class="kw">HTML</span>(<span class="st">&quot;p { color:red;}&quot;</span>)</a>
+<a class="sourceLine" id="cb36-4" title="4">  )</a>
+<a class="sourceLine" id="cb36-5" title="5">)</a></code></pre></div>
 <ol start="4" type="1">
-<li>Call <code>includeCSS(&quot;mycss.css&quot;)</code> in your UI
+<li>Call <code>includeCSS("mycss.css")</code> in your UI
 <ul>
 <li>File should be in your app directory.</li>
 </ul></li>
@@ -2296,7 +2423,7 @@ output:
 <li>You can have lists within lists.</li>
 </ul>
 <p>You can set the initial choice to null, but display a short instruction.</p>
-<p><code>selectInput(&quot;fred&quot;, &quot;&quot;, choices = c(&quot;Choose df&quot; = &quot;&quot;))</code></p>
+<p><code>selectInput("fred", "", choices = c("Choose df" = ""))</code></p>
 <p>We’ll use this in Project-5-PlotDF</p>
 </section><section id="project-2-return-1" class="slide level2">
 <h2>Project 2: Return</h2>
@@ -2365,33 +2492,33 @@ output:
 </section><section id="the-ui-builder" class="slide level2">
 <h2>The UI builder</h2>
 <p>Ordinary, non-module style</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">ui_components &lt;-<span class="st"> </span><span class="kw">tagList</span>(</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">  <span class="kw">selectInput</span>(<span class="st">&quot;shape&quot;</span>, <span class="st">&quot;Shape:&quot;</span>,</a>
-<a class="sourceLine" id="cb36-3" data-line-number="3">    <span class="dt">choice =</span> <span class="kw">c</span>(<span class="st">&quot;Gauss&quot;</span>, <span class="st">&quot;unif&quot;</span>, <span class="st">&quot;exp&quot;</span>)),</a>
-<a class="sourceLine" id="cb36-4" data-line-number="4">  <span class="kw">sliderInput</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;Value:&quot;</span>, <span class="dt">min=</span><span class="dv">0</span>, <span class="dt">max=</span><span class="dv">10</span>, <span class="dt">value=</span><span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb36-5" data-line-number="5">  <span class="kw">plotOutput</span>(<span class="st">&quot;density&quot;</span>)</a>
-<a class="sourceLine" id="cb36-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">ui_components &lt;-<span class="st"> </span><span class="kw">tagList</span>(</a>
+<a class="sourceLine" id="cb37-2" title="2">  <span class="kw">selectInput</span>(<span class="st">&quot;shape&quot;</span>, <span class="st">&quot;Shape:&quot;</span>,</a>
+<a class="sourceLine" id="cb37-3" title="3">    <span class="dt">choice =</span> <span class="kw">c</span>(<span class="st">&quot;Gauss&quot;</span>, <span class="st">&quot;unif&quot;</span>, <span class="st">&quot;exp&quot;</span>)),</a>
+<a class="sourceLine" id="cb37-4" title="4">  <span class="kw">sliderInput</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;Value:&quot;</span>, <span class="dt">min=</span><span class="dv">0</span>, <span class="dt">max=</span><span class="dv">10</span>, <span class="dt">value=</span><span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb37-5" title="5">  <span class="kw">plotOutput</span>(<span class="st">&quot;density&quot;</span>)</a>
+<a class="sourceLine" id="cb37-6" title="6">)</a></code></pre></div>
 <p>Module style</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">density_UI &lt;-<span class="st"> </span><span class="cf">function</span>(id) {</a>
-<a class="sourceLine" id="cb37-2" data-line-number="2">  ns &lt;-<span class="st"> </span><span class="kw">NS</span>(id) <span class="co"># Creates function to customize names</span></a>
-<a class="sourceLine" id="cb37-3" data-line-number="3">  <span class="kw">tagList</span>(</a>
-<a class="sourceLine" id="cb37-4" data-line-number="4">    <span class="kw">selectInput</span>(<span class="kw">ns</span>(<span class="st">&quot;shape&quot;</span>), <span class="st">&quot;Shape:&quot;</span>,</a>
-<a class="sourceLine" id="cb37-5" data-line-number="5">                <span class="dt">choice =</span> <span class="kw">c</span>(<span class="st">&quot;Gauss&quot;</span>, <span class="st">&quot;unif&quot;</span>, <span class="st">&quot;exp&quot;</span>)),</a>
-<a class="sourceLine" id="cb37-6" data-line-number="6">    <span class="kw">sliderInput</span>(<span class="kw">ns</span>(<span class="st">&quot;x&quot;</span>), <span class="st">&quot;Value:&quot;</span>, <span class="dt">min=</span><span class="dv">0</span>, <span class="dt">max=</span><span class="dv">10</span>, <span class="dt">value=</span><span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb37-7" data-line-number="7">    <span class="kw">plotOutput</span>(<span class="kw">ns</span>(<span class="st">&quot;density&quot;</span>))</a>
-<a class="sourceLine" id="cb37-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb37-9" data-line-number="9">}</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">density_UI &lt;-<span class="st"> </span><span class="cf">function</span>(id) {</a>
+<a class="sourceLine" id="cb38-2" title="2">  ns &lt;-<span class="st"> </span><span class="kw">NS</span>(id) <span class="co"># Creates function to customize names</span></a>
+<a class="sourceLine" id="cb38-3" title="3">  <span class="kw">tagList</span>(</a>
+<a class="sourceLine" id="cb38-4" title="4">    <span class="kw">selectInput</span>(<span class="kw">ns</span>(<span class="st">&quot;shape&quot;</span>), <span class="st">&quot;Shape:&quot;</span>,</a>
+<a class="sourceLine" id="cb38-5" title="5">                <span class="dt">choice =</span> <span class="kw">c</span>(<span class="st">&quot;Gauss&quot;</span>, <span class="st">&quot;unif&quot;</span>, <span class="st">&quot;exp&quot;</span>)),</a>
+<a class="sourceLine" id="cb38-6" title="6">    <span class="kw">sliderInput</span>(<span class="kw">ns</span>(<span class="st">&quot;x&quot;</span>), <span class="st">&quot;Value:&quot;</span>, <span class="dt">min=</span><span class="dv">0</span>, <span class="dt">max=</span><span class="dv">10</span>, <span class="dt">value=</span><span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb38-7" title="7">    <span class="kw">plotOutput</span>(<span class="kw">ns</span>(<span class="st">&quot;density&quot;</span>))</a>
+<a class="sourceLine" id="cb38-8" title="8">  )</a>
+<a class="sourceLine" id="cb38-9" title="9">}</a></code></pre></div>
 </section><section id="ns-does-what-ns-does-what" class="slide level2">
 <h2><code>NS()</code> does what? <code>ns()</code> does what?</h2>
 <p><code>NS()</code> is a perfectly ordinary muggle function.</p>
 <p>Your turn:</p>
 <ol type="1">
-<li>Try out <code>NS()</code> in the console, say <code>NS(&quot;fred&quot;)</code>.
+<li>Try out <code>NS()</code> in the console, say <code>NS("fred")</code>.
 <ul>
 <li>What kind of thing is returned?</li>
 </ul></li>
-<li>Again, in the console, bind a name to the output of <code>NS(&quot;fred&quot;)</code>, say <code>ns &lt;- NS(&quot;fred&quot;)</code>.</li>
-<li>Use <code>ns()</code>, that is, <code>ns(&quot;density&quot;)</code>
+<li>Again, in the console, bind a name to the output of <code>NS("fred")</code>, say <code>ns &lt;- NS("fred")</code>.</li>
+<li>Use <code>ns()</code>, that is, <code>ns("density")</code>
 <ul>
 <li>What do you get from this?</li>
 </ul></li>
@@ -2400,67 +2527,67 @@ output:
 </section><section id="a-module-server-builder" class="slide level2">
 <h2>A module server builder</h2>
 <p>Very much the same as we have been doing all along.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">density &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2">  rvals &lt;-<span class="st"> </span><span class="kw">reactive</span>({<span class="kw">rnorm</span>(<span class="dv">1000</span>) <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>x})</a>
-<a class="sourceLine" id="cb38-3" data-line-number="3">  output<span class="op">$</span>plot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({<span class="kw">histogram</span>(rvals)})</a>
-<a class="sourceLine" id="cb38-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">density &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb39-2" title="2">  rvals &lt;-<span class="st"> </span><span class="kw">reactive</span>({<span class="kw">rnorm</span>(<span class="dv">1000</span>) <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>x})</a>
+<a class="sourceLine" id="cb39-3" title="3">  output<span class="op">$</span>plot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({<span class="kw">histogram</span>(rvals)})</a>
+<a class="sourceLine" id="cb39-4" title="4">}</a></code></pre></div>
 <p>Important note: The above code doesn’t make the reactive and observer elements. Instead, it is a function that <em>will make them</em> when called appropriately.</p>
 </section><section id="using-the-module-server-builder" class="slide level2">
 <h2>Using the module server builder</h2>
 <p><em>If we were not building modules</em>, we might use functions like <code>density_UI()</code> and <code>density()</code> directly in an app, like this:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">ui &lt;-<span class="st"> </span><span class="kw">tagList</span>(... other UI stuff ...,     </a>
-<a class="sourceLine" id="cb39-2" data-line-number="2">              <span class="kw">density_UI</span>(<span class="st">&quot;fred&quot;</span>))</a>
-<a class="sourceLine" id="cb39-3" data-line-number="3">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb39-4" data-line-number="4">  <span class="kw">density</span>(input, output, session)</a>
-<a class="sourceLine" id="cb39-5" data-line-number="5">  ... other reactive definitions ...</a>
-<a class="sourceLine" id="cb39-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="kw">shinyApp</span>(ui, server)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">ui &lt;-<span class="st"> </span><span class="kw">tagList</span>(... other UI stuff ...,     </a>
+<a class="sourceLine" id="cb40-2" title="2">              <span class="kw">density_UI</span>(<span class="st">&quot;fred&quot;</span>))</a>
+<a class="sourceLine" id="cb40-3" title="3">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb40-4" title="4">  <span class="kw">density</span>(input, output, session)</a>
+<a class="sourceLine" id="cb40-5" title="5">  ... other reactive definitions ...</a>
+<a class="sourceLine" id="cb40-6" title="6">}</a>
+<a class="sourceLine" id="cb40-7" title="7"><span class="kw">shinyApp</span>(ui, server)</a></code></pre></div>
 <ul>
-<li>Problem 1: <code>density_UI(&quot;fred&quot;)</code> creates UI elements with <code>fred-</code> prepended to the name.</li>
+<li>Problem 1: <code>density_UI("fred")</code> creates UI elements with <code>fred-</code> prepended to the name.</li>
 <li>Problem 2: <code>density(input, output, session)</code> does <strong>not</strong> prepend <code>fred-</code> to the names of the inputs or reactive elements.</li>
 </ul>
 </section><section id="callmodule-to-the-rescue" class="slide level2">
 <h2><code>callModule()</code> to the rescue</h2>
 <p>To use the functions <code>density_UI()</code> and <code>density()</code> as a module, we need to coordinate the name spaces.</p>
 <p><code>callModule()</code> does this.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">ui &lt;-<span class="st"> </span><span class="kw">tagList</span>(... other UI stuff ...,     </a>
-<a class="sourceLine" id="cb40-2" data-line-number="2">              <span class="kw">density_UI</span>(<span class="st">&quot;fred&quot;</span>))</a>
-<a class="sourceLine" id="cb40-3" data-line-number="3">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb40-4" data-line-number="4">  <span class="kw">callModule</span>(density, <span class="st">&quot;fred&quot;</span>)</a>
-<a class="sourceLine" id="cb40-5" data-line-number="5">  ... other reactive definitions ...</a>
-<a class="sourceLine" id="cb40-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb40-7" data-line-number="7"><span class="kw">shinyApp</span>(ui, server)</a></code></pre></div>
-<p>It’s your job to use <code>&quot;fred&quot;</code> consistently.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">ui &lt;-<span class="st"> </span><span class="kw">tagList</span>(... other UI stuff ...,     </a>
+<a class="sourceLine" id="cb41-2" title="2">              <span class="kw">density_UI</span>(<span class="st">&quot;fred&quot;</span>))</a>
+<a class="sourceLine" id="cb41-3" title="3">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb41-4" title="4">  <span class="kw">callModule</span>(density, <span class="st">&quot;fred&quot;</span>)</a>
+<a class="sourceLine" id="cb41-5" title="5">  ... other reactive definitions ...</a>
+<a class="sourceLine" id="cb41-6" title="6">}</a>
+<a class="sourceLine" id="cb41-7" title="7"><span class="kw">shinyApp</span>(ui, server)</a></code></pre></div>
+<p>It’s your job to use <code>"fred"</code> consistently.</p>
 </section><section id="a-multiple-use-pattern" class="slide level2">
 <h2>A multiple-use pattern</h2>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">ui &lt;-<span class="st"> </span><span class="kw">tagList</span>(... other UI stuff ...,     </a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">              <span class="kw">density_UI</span>(<span class="st">&quot;fred&quot;</span>),</a>
-<a class="sourceLine" id="cb41-3" data-line-number="3">              <span class="kw">density_UI</span>(<span class="st">&quot;ginger&quot;</span>))</a>
-<a class="sourceLine" id="cb41-4" data-line-number="4">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb41-5" data-line-number="5">  <span class="kw">callModule</span>(density, <span class="st">&quot;fred&quot;</span>)</a>
-<a class="sourceLine" id="cb41-6" data-line-number="6">  <span class="kw">callModule</span>(density, <span class="st">&quot;ginger&quot;</span>)</a>
-<a class="sourceLine" id="cb41-7" data-line-number="7">  ... other reactive definitions ...</a>
-<a class="sourceLine" id="cb41-8" data-line-number="8">}</a>
-<a class="sourceLine" id="cb41-9" data-line-number="9"><span class="kw">shinyApp</span>(ui, server)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">ui &lt;-<span class="st"> </span><span class="kw">tagList</span>(... other UI stuff ...,     </a>
+<a class="sourceLine" id="cb42-2" title="2">              <span class="kw">density_UI</span>(<span class="st">&quot;fred&quot;</span>),</a>
+<a class="sourceLine" id="cb42-3" title="3">              <span class="kw">density_UI</span>(<span class="st">&quot;ginger&quot;</span>))</a>
+<a class="sourceLine" id="cb42-4" title="4">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb42-5" title="5">  <span class="kw">callModule</span>(density, <span class="st">&quot;fred&quot;</span>)</a>
+<a class="sourceLine" id="cb42-6" title="6">  <span class="kw">callModule</span>(density, <span class="st">&quot;ginger&quot;</span>)</a>
+<a class="sourceLine" id="cb42-7" title="7">  ... other reactive definitions ...</a>
+<a class="sourceLine" id="cb42-8" title="8">}</a>
+<a class="sourceLine" id="cb42-9" title="9"><span class="kw">shinyApp</span>(ui, server)</a></code></pre></div>
 </section><section id="accessing-fred-and-gingers-reactives" class="slide level2">
 <h2>Accessing Fred and Ginger’s reactives</h2>
 <p>Functions like <code>density()</code> can return values after they create the reactive entities.</p>
 <p>This enables you to provide other reactive entities access to the reactives in Fred or Ginger.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">density &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb42-2" data-line-number="2">  rvals &lt;-<span class="st"> </span><span class="kw">reactive</span>({<span class="kw">rnorm</span>(<span class="dv">1000</span>) <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>x})</a>
-<a class="sourceLine" id="cb42-3" data-line-number="3">  ... other stuff <span class="cf">in</span> your module</a>
-<a class="sourceLine" id="cb42-4" data-line-number="4">  <span class="kw">return</span>(<span class="kw">list</span>(rvals, ... and any others you want.))</a>
-<a class="sourceLine" id="cb42-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1">density &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb43-2" title="2">  rvals &lt;-<span class="st"> </span><span class="kw">reactive</span>({<span class="kw">rnorm</span>(<span class="dv">1000</span>) <span class="op">+</span><span class="st"> </span>input<span class="op">$</span>x})</a>
+<a class="sourceLine" id="cb43-3" title="3">  ... other stuff <span class="cf">in</span> your module</a>
+<a class="sourceLine" id="cb43-4" title="4">  <span class="kw">return</span>(<span class="kw">list</span>(rvals, ... and any others you want.))</a>
+<a class="sourceLine" id="cb43-5" title="5">}</a></code></pre></div>
 <p>Then,</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">  Freds_reactives &lt;-<span class="st"> </span><span class="kw">callModule</span>(density, <span class="st">&quot;fred&quot;</span>)</a>
-<a class="sourceLine" id="cb43-3" data-line-number="3">  Gingers_reactives &lt;-<span class="st"> </span><span class="kw">callModule</span>(density, <span class="st">&quot;ginger&quot;</span>)</a>
-<a class="sourceLine" id="cb43-4" data-line-number="4">  </a>
-<a class="sourceLine" id="cb43-5" data-line-number="5">  <span class="co"># Calculate the sum of Fred and Gingers random values</span></a>
-<a class="sourceLine" id="cb43-6" data-line-number="6">  new_reactive &lt;-<span class="st"> </span><span class="kw">reactive</span>({</a>
-<a class="sourceLine" id="cb43-7" data-line-number="7">    Freds_reactives<span class="op">$</span><span class="kw">rvals</span>() <span class="op">+</span><span class="st"> </span>Gingers_reactives<span class="op">$</span><span class="kw">rvals</span>()</a>
-<a class="sourceLine" id="cb43-8" data-line-number="8">  })</a>
-<a class="sourceLine" id="cb43-9" data-line-number="9">}</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
+<a class="sourceLine" id="cb44-2" title="2">  Freds_reactives &lt;-<span class="st"> </span><span class="kw">callModule</span>(density, <span class="st">&quot;fred&quot;</span>)</a>
+<a class="sourceLine" id="cb44-3" title="3">  Gingers_reactives &lt;-<span class="st"> </span><span class="kw">callModule</span>(density, <span class="st">&quot;ginger&quot;</span>)</a>
+<a class="sourceLine" id="cb44-4" title="4">  </a>
+<a class="sourceLine" id="cb44-5" title="5">  <span class="co"># Calculate the sum of Fred and Gingers random values</span></a>
+<a class="sourceLine" id="cb44-6" title="6">  new_reactive &lt;-<span class="st"> </span><span class="kw">reactive</span>({</a>
+<a class="sourceLine" id="cb44-7" title="7">    Freds_reactives<span class="op">$</span><span class="kw">rvals</span>() <span class="op">+</span><span class="st"> </span>Gingers_reactives<span class="op">$</span><span class="kw">rvals</span>()</a>
+<a class="sourceLine" id="cb44-8" title="8">  })</a>
+<a class="sourceLine" id="cb44-9" title="9">}</a></code></pre></div>
 </section></section>
 <section><section id="project-4" class="title-slide slide level1"><h1>Project 4</h1></section><section id="project-4-modules" class="slide level2">
 <h2>Project 4: Modules</h2>
@@ -2486,7 +2613,7 @@ output:
 <h2>Task 1: You can see where this is heading</h2>
 <p>First, I want you to appreciate the problem that Shiny modules address. To this end …</p>
 <ol type="1">
-<li>Copy the UI for the for the bicycle and customize it to be a car. (The relevant icon name is <code>&quot;car&quot;</code>!) Keep in mind that you don’t want to have the same ID for different buttons.</li>
+<li>Copy the UI for the for the bicycle and customize it to be a car. (The relevant icon name is <code>"car"</code>!) Keep in mind that you don’t want to have the same ID for different buttons.</li>
 <li>In <code>server-components.R</code>, “copy” the components so that you have a counter and corresponding <code>observeEvent()</code>s to keep track of the count of cars.</li>
 <li>Spend the time to get this to work. It’s worthwhile because you will have to address the same challenges that Shiny modules helps take care of for you.</li>
 </ol>
@@ -2508,57 +2635,57 @@ output:
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">automobile</td>
-<td style="text-align: left;"><code>&quot;car&quot;</code></td>
+<td style="text-align: left;"><code>"car"</code></td>
 <td style="text-align: left;"><i class="fa fa-car"></i></td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">bike</td>
-<td style="text-align: left;"><code>&quot;bicycle&quot;</code></td>
+<td style="text-align: left;"><code>"bicycle"</code></td>
 <td style="text-align: left;"><i class="fa fa-bicycle"></i></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">truck</td>
-<td style="text-align: left;"><code>&quot;truck&quot;</code></td>
+<td style="text-align: left;"><code>"truck"</code></td>
 <td style="text-align: left;"><i class="fa fa-truck"></i></td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">bus</td>
-<td style="text-align: left;"><code>&quot;bus&quot;</code></td>
+<td style="text-align: left;"><code>"bus"</code></td>
 <td style="text-align: left;"><i class="fa fa-bus"></i></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">motorcycle</td>
-<td style="text-align: left;"><code>&quot;motorcycle&quot;</code></td>
+<td style="text-align: left;"><code>"motorcycle"</code></td>
 <td style="text-align: left;"><i class="fa fa-motorcycle"></i></td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">helicopter</td>
-<td style="text-align: left;"><code>&quot;helicopter&quot;</code></td>
+<td style="text-align: left;"><code>"helicopter"</code></td>
 <td style="text-align: left;"><i class="fa fa-helicopter"></i></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">airplane</td>
-<td style="text-align: left;"><code>&quot;plane&quot;</code></td>
+<td style="text-align: left;"><code>"plane"</code></td>
 <td style="text-align: left;"><i class="fa fa-plane"></i></td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">wheelchair</td>
-<td style="text-align: left;"><code>&quot;wheelchair&quot;</code></td>
+<td style="text-align: left;"><code>"wheelchair"</code></td>
 <td style="text-align: left;"><i class="fa fa-wheelchair"></i></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">Mary Poppins</td>
-<td style="text-align: left;"><code>&quot;umbrella&quot;</code></td>
+<td style="text-align: left;"><code>"umbrella"</code></td>
 <td style="text-align: left;"><i class="fa fa-umbrella"></i></td>
 </tr>
 </tbody>
 </table>
 </section></section>
-<section class="footnotes">
+<section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>There are others, see <code>quote()</code>, <code>expression</code>, and <code>parse</code>.<a href="#/fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>But the visualizer knows that they will eventually be used.<a href="#/fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn1" role="doc-endnote"><p>There are others, see <code>quote()</code>, <code>expression</code>, and <code>parse</code>.<a href="#/fnref1" class="footnote-back" role="doc-backlink">↩</a></p></li>
+<li id="fn2" role="doc-endnote"><p>But the visualizer knows that they will eventually be used.<a href="#/fnref2" class="footnote-back" role="doc-backlink">↩</a></p></li>
 </ol>
 </section>
     </div>

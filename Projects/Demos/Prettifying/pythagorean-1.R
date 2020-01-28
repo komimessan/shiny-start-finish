@@ -24,7 +24,8 @@ server <- function(input, output, session) {
   })
 }
 
-options(reactlog=TRUE)
+#options(reactlog=TRUE)
+options(shiny.reactlog = TRUE)
 #reactlogReset()
 # after App runs:  reactlogShow()
 

@@ -12,7 +12,7 @@ ui <- tagList(
 )
 
 server <- function(input, output, session) {
-  C2 <- reactive(input$A^2 + input$B^2, label = "C2")
+  C2 <- reactive({input$A^2 + input$B^2}, label = "C2")
   output$C <- renderText(sqrt(C2()))
 }
 
