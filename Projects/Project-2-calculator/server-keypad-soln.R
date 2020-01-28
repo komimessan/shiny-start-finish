@@ -28,7 +28,7 @@
     entry_string(paste0(entry_string(), "7"))
   })
   observeEvent(input$eight, { # a bug to fix!
-    entry_string(paste0(entry_string(), "4"))
+    entry_string(paste0(entry_string(), "8"))
   })
   observeEvent(input$nine, {
     entry_string(paste0(entry_string(), "9"))
