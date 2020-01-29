@@ -18,7 +18,11 @@ server <- function(input, output, session) {
     response = NULL,
     explanatory = NULL
   )
-  observe(Choices$frame <- input$frame) 
+  observe({
+    # message("I am in the observer.") # debugging
+    cat("I am observing",input$frame,"\n")
+    Choices$frame <- input$frame
+    }) 
   observe(Choices$response <- input$response) 
   observe(Choices$explanatory <- input$explanatory)
   

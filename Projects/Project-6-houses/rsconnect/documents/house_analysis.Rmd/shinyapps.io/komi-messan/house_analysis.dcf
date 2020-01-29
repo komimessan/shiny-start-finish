@@ -1,0 +1,13 @@
+name: house_analysis
+title: house_analysis
+username:
+account: komi-messan
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1721254
+bundleId: 2759533
+url: https://komi-messan.shinyapps.io/house_analysis/
+when: 1580249688.22999
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: soln.Rmd
